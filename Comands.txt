@@ -1,0 +1,80 @@
+u1 = User.objects.create_user(username='Evgen')
+u2 = User.objects.create_user(username='Alex')
+ Author.objects.create(authorUser=u2)
+author = Author.objects.get(id=1)
+authorE = Author.objects.create(authorUser=u1)
+ Category.objects.create(category='World')
+w = Category.objects.get(id=1)
+i = Category.objects.create(category='ITnews')
+p = Category.objects.create(category='Politcs')
+f = Category.objects.create(category='Finance')
+post1 = Post.objects.create(postAuthor=author, postType='NW', title='First MARS livestream', text='Сегодня стартует первый в истории стрим с Марса - транслировать картинку будет станция Mars Express')
+post2 = Post.objects.create(postAuthor=authorE, postType='NW', title="'Навигатор' от Сбера", text='Сбер выводит на внешний рынок ещё одну технологическую платформу собственной разработки - НАВИГАТОР для 
+визуализации данных и поддержки принятия управленчиских решений.')
+post3 = Post.objects.create(postAuthor=author, postType='AR', title='Секрет Илона Маска', text='На одном из своих последних интервью Илон Маск показал свой главный талант, благодаря которому он стал таки
+м богатым и знаменитым - открывать пиво бутылкой водки.')
+post4 = Post.objects.create(postAuthor=authorE, postType='AR', title='МТС Банк', text='МТС Банк выпустил первую банковскую карту, которая уменьшает цену во время оплаты любых товаров.')
+post1.postCategory.add(w)
+post2.postCategory.add(i)
+post2.postCategory.add(f)
+post3.postCategory.add(i)
+post3.postCategory.add(w)
+post4.postCategory.add(i)
+post4.postCategory.add(f)
+
+Comment.objects.create(commentPost=post1, commentUser=User.objects.get(id=3), comment_text='Cool!') 
+Comment.objects.create(commentPost=post2, commentUser=User.objects.get(id=2), comment_text='bla-bla-bla') 
+Comment.objects.create(commentPost=post3, commentUser=User.objects.get(id=2), comment_text='XA, XA, XA')
+Comment.objects.create(commentPost=post4, commentUser=User.objects.get(id=2), comment_text='Perfecto!') 
+Comment.objects.create(commentPost=post4, commentUser=User.objects.get(id=1), comment_text='BLA, BLA-BLA')
+
+Comment.objects.get(commentPost_id=1).like()
+Comment.objects.get(commentPost_id=1).like()
+
+Comment.objects.get(commentPost_id=2).like()
+Comment.objects.get(commentPost_id=2).like()
+Comment.objects.get(commentPost_id=2).like()
+
+Comment.objects.get(id=3).like() 
+Comment.objects.get(id=3).like() 
+Comment.objects.get(id=3).like() 
+Comment.objects.get(id=3).like() 
+
+ Comment.objects.get(id=4).like() 
+ Comment.objects.get(id=4).like() 
+
+ Comment.objects.get(id=5).like()
+
+post1.like()
+post2.like()
+post2.like()
+post3.like() 
+post4.like()
+
+Author.objects.get(id=1).update_rating()
+Author.objects.get(id=2).update_rating()
+
+>>> a = Author.objects.order_by('-rating')[:1]
+>>> for b in a:
+...     b.authorUser.username
+...     b.rating
+
+
+ Post.objects.order_by('-rating').values('date_creation', 'postAuthor__authorUser__username', 'rating', 'title')[0]
+Post.objects.order_by('-rating')[0].preview()  
+
+>>> p = Post.objects.order_by('-rating')[0]   
+>>> c = Comment.objects.get(commentPost=p.id)                                            
+>>> c
+<Comment: Comment object (2)>
+>>> c.comment_text
+'bla-bla-bla'
+>>> c.commentUser.username
+'Evgen'
+>>> c.comment_date
+datetime.datetime(2023, 6, 4, 3, 54, 1, 787550, tzinfo=datetime.timezone.utc)
+>>> c.rating
+3
+  
+
+    
